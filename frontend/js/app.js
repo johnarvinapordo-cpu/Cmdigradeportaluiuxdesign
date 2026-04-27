@@ -39,7 +39,7 @@ let user = null;
 let view = 'dashboard';
 
 function $(id){ return document.getElementById(id); }
-function escape(s){ return (s||'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'<','>':'>','"':'"'}[c]||c)); }
+function escape(s){ return (s||'').toString().replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'<','>':'>','"':'"'}[c]||c;}); }
 function badge(type, text){
   const cls = {green:'badge-green',amber:'badge-amber',red:'badge-red',blue:'badge-blue'}[type]||'badge-gray';
   return '<span class="badge '+cls+'">'+escape(text)+'</span>';
@@ -48,7 +48,7 @@ function alertBox(type, msg){
   return '<div class="alert alert-'+type+'">'+escape(msg)+'</div>';
 }
 function card(title, body){
-  return '<div class="card"><div class="card-header"><h3>'+escape(title||'')+'</h3></div><div class="card-body">'+body+'</div></div>';
+  return '<div class="card"><div class="card-header"><h3>'+escape(title||'')+'</h3></div><div class="card-body">'+body+'</div>';
 }
 function table(headers, rows){
   if(!rows||!rows.length) return '<div class="empty-state">No data available</div>';
@@ -57,7 +57,7 @@ function table(headers, rows){
   return h+'</tbody></table>';
 }
 function statCard(icon, val, lbl){
-  return '<div class="stat-card"><div class="stat-icon blue">'+icon+'</div><div class="stat-info"><h4>'+val+'</h4><p>'+escape(lbl)+'</p></div></div>';
+  return '<div class="stat-card"><div class="stat-icon blue">'+icon+'</div><div class="stat-info"><h4>'+val+'</h4><p>'+escape(lbl)+'</p></div>';
 }
 function nv(v){ return v!=null?v:'-'; }
 function fmtDate(d){ if(!d) return '-'; return new Date(d).toLocaleDateString(); }
@@ -314,16 +314,16 @@ async function renderCourseManagement(c){
 // ============= FINANCE VIEWS =============
 
 async function renderRecordPayments(c){
-  c.innerHTML=card('Record Payment','
-    <div class="form-row">
-      <div><label class="form-label">Student ID</label><input type="number" id="rp_sid" class="form-control" placeholder="Student ID"></div>
-      <div><label class="form-label">Amount</label><input type="number" id="rp_amt" class="form-control" placeholder="Amount"></div>
-    </div>
-    <div class="form-row">
-      <div><label class="form-label">Type</label><select id="rp_type" class="form-control"><option value="tuition">Tuition</option><option value="miscellaneous">Miscellaneous</option><option value="laboratory">Laboratory</option><option value="other">Other</option></select></div>
-      <div><label class="form-label">Description</label><input type="text" id="rp_desc" class="form-control" placeholder="Description"></div>
-    </div>
-    <button class="btn btn-blue" onclick="submitPayment()">Record Payment</button>');
+  var form = '<div class="form-row">' +
+    '<div><label class="form-label">Student ID</label><input type="number" id="rp_sid" class="form-control" placeholder="Student ID"></div>' +
+    '<div><label class="form-label">Amount</label><input type="number" id="rp_amt" class="form-control" placeholder="Amount"></div>' +
+    '</div>' +
+    '<div class="form-row">' +
+    '<div><label class="form-label">Type</label><select id="rp_type" class="form-control"><option value="tuition">Tuition</option><option value="miscellaneous">Miscellaneous</option><option value="laboratory">Laboratory</option><option value="other">Other</option></select></div>' +
+    '<div><label class="form-label">Description</label><input type="text" id="rp_desc" class="form-control" placeholder="Description"></div>' +
+    '</div>' +
+    '<button class="btn btn-blue" onclick="submitPayment()">Record Payment</button>';
+  c.innerHTML=card('Record Payment',form);
 }
 
 async function submitPayment(){
@@ -411,4 +411,3 @@ async function renderProfile(c){
 }
 
 init();
-
