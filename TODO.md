@@ -1,36 +1,25 @@
-# CMDI Grade Portal - Full Stack Conversion TODO
+# CMDI Grade Portal - Fix & Upgrade TODO
 
-## Phase 1: Database
-- [x] Create MySQL schema with all tables and relationships
-- [x] Insert demo data for all 5 roles
+## Phase 1: Structure & Root Files
+- [ ] Create root `index.html` (login page — works offline)
+- [ ] Create `pages/dashboard.html` (dashboard shell)
+- [ ] Create `css/styles.css` (complete responsive styles)
 
-## Phase 2: Backend (Node.js + Express)
-- [x] package.json with dependencies
-- [x] server.js main entry
-- [x] config/db.js MySQL connection
-- [x] middleware/auth.js JWT + role protection
-- [x] middleware/validation.js input validation
-- [x] routes/auth.js login/me/logout
-- [x] routes/users.js CRUD
-- [x] routes/students.js
-- [x] routes/teachers.js
-- [x] routes/subjects.js
-- [x] routes/grades.js
-- [x] routes/enrollments.js
-- [x] routes/payments.js
-- [x] routes/announcements.js
+## Phase 2: JavaScript Core
+- [ ] Create `js/mock-data.js` (demo data for all roles)
+- [ ] Create `js/auth.js` (API-first login with automatic mock fallback)
+- [ ] Create `js/app.js` (dashboard router & view renderer)
 
-## Phase 3: Frontend (HTML/CSS/JS)
-- [x] index.html login page
-- [x] css/styles.css responsive design
-- [x] js/auth.js token management
-- [x] dashboard.html main shell
-- [x] js/app.js role-based dashboard rendering
+## Phase 3: Role Dashboards
+- [ ] Student Dashboard: grades, enrollment, schedule, payments
+- [ ] Teacher Dashboard: subjects, enter grades, student list
+- [ ] Registrar Dashboard: enrollment management, student records, courses
+- [ ] Finance Dashboard: record payments, payment history, balances
+- [ ] Admin Dashboard: users, students, teachers, grades, settings
 
-## Phase 4: Integration & Docs
-- [x] README.md setup instructions
-- [x] backend/.env configured
-- [x] Root package.json with scripts
-
-## Status: COMPLETE
+## Phase 4: Polish & Verify
+- [ ] Verify all paths are correct relative paths
+- [ ] Test login with each demo credential
+- [ ] Confirm no blank screen, no console errors
+- [ ] Ensure responsive layout works
 
