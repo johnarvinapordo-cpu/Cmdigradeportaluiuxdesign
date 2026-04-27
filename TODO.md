@@ -1,47 +1,36 @@
-# CMDI Grade Portal - Frontend Completion TODO
+# CMDI Grade Portal - Full Stack Conversion TODO
 
-## Authentication & Role System
-- [x] Update UserRole type: add 'registrar' | 'finance'
-- [x] Update AuthContext: auto-detect role, add registrar/finance mock users, loading state
-- [x] Update LoginPage: remove role selection, single login form, loading spinner
-- [x] Update DashboardPage: add registrar & finance dashboard routes
+## Phase 1: Database
+- [x] Create MySQL schema with all tables and relationships
+- [x] Insert demo data for all 5 roles
 
-## Navigation & Routing
-- [x] Update Sidebar: add registrar & finance nav items, shared common items
-- [x] Update routes.tsx: add new routes for registrar, finance, admin, common pages
-- [x] Create ProtectedRoute component for role-based access control
+## Phase 2: Backend (Node.js + Express)
+- [x] package.json with dependencies
+- [x] server.js main entry
+- [x] config/db.js MySQL connection
+- [x] middleware/auth.js JWT + role protection
+- [x] middleware/validation.js input validation
+- [x] routes/auth.js login/me/logout
+- [x] routes/users.js CRUD
+- [x] routes/students.js
+- [x] routes/teachers.js
+- [x] routes/subjects.js
+- [x] routes/grades.js
+- [x] routes/enrollments.js
+- [x] routes/payments.js
+- [x] routes/announcements.js
 
-## Dashboards (5 Total)
-- [x] StudentDashboard (existing - verified)
-- [x] TeacherDashboard (existing - verified)
-- [x] RegistrarDashboard (created)
-- [x] FinanceDashboard (created)
-- [x] AdminDashboard (existing - verified)
+## Phase 3: Frontend (HTML/CSS/JS)
+- [x] index.html login page
+- [x] css/styles.css responsive design
+- [x] js/auth.js token management
+- [x] dashboard.html main shell
+- [x] js/app.js role-based dashboard rendering
 
-## Registrar Pages
-- [x] ManageEnrollmentPage: enrollment requests with approve/reject
-- [x] ManageCoursesPage: course offerings CRUD UI
-- [x] StudentRecordsPage: searchable student records
+## Phase 4: Integration & Docs
+- [x] README.md setup instructions
+- [x] backend/.env configured
+- [x] Root package.json with scripts
 
-## Finance Pages
-- [x] RecordPaymentsPage: payment recording form with student lookup
-- [x] GenerateReceiptsPage: receipt generation and preview
-- [x] PaymentHistoryPage: full payment history table
-
-## Admin Pages
-- [x] UserManagementPage: CRUD UI for users
-- [x] SystemSettingsPage: system configuration form
-
-## Common Pages
-- [x] NotificationsPage: notification panel with categories
-- [x] ProfilePage: user profile with edit capabilities
-
-## API Service Layer
-- [x] Create api.ts placeholder service with axios/fetch
-
-## Testing & Verification
-- [x] Dev server starts successfully (http://localhost:5173/)
-- [x] Production build succeeds (dist/ folder generated)
-- [ ] Manual browser testing of all 5 role logins
-- [ ] Responsive layout verification
+## Status: COMPLETE
 

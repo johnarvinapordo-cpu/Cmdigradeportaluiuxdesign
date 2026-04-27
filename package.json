@@ -1,0 +1,24 @@
+{
+  "name": "cmdi-grade-portal",
+  "version": "2.0.0",
+  "description": "CMDI Grade Portal - Full Stack System (Node.js + Express + MySQL + HTML/CSS/JS)",
+  "scripts": {
+    "backend": "cd backend && npm start",
+    "backend:dev": "cd backend && npm run dev",
+    "install:backend": "cd backend && npm install",
+    "setup": "npm run install:backend",
+    "db:init": "node backend/scripts/initDb.js",
+    "start": "npm run backend"
+  },
+  "keywords": [
+    "grade-portal",
+    "student-information-system",
+    "cmdi",
+    "nodejs",
+    "express",
+    "mysql"
+  ],
+  "author": "CMDI Development Team",
+  "license": "MIT"
+}
+
