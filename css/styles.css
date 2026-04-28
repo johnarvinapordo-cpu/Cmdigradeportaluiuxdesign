@@ -12,6 +12,7 @@
   --danger: #ef4444;
   --dark: #0f172a;
   --dark-light: #1e293b;
+  --gray-50: #f8fafc;
   --gray-100: #f1f5f9;
   --gray-200: #e2e8f0;
   --gray-300: #cbd5e1;
@@ -262,7 +263,7 @@ html, body {
   left: 0;
   height: 100vh;
   z-index: 100;
-  transition: width 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .sidebar-header {

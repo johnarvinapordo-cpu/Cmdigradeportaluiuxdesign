@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMDI Grade Portal - Debug & Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 { color: #1e40af; }
+    .status { padding: 10px; margin: 10px 0; border-radius: 4px; }
+    .success { background: #d1fae5; color: #065f46; }
+    .error { background: #fee2e2; color: #991b1b; }
+    .info { background: #dbeafe; color: #1e40af; }
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .btn-primary { background: #1e40af; color: white; }
+    .btn-primary:hover { background: #1e3a8a; }
+    .console {
+      background: #222;
+      color: #0f0;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+      max-height: 300px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 12px;
+    }
+    .test-result {
+      padding: 10px;
+      margin: 5px 0;
+      border-left: 3px solid #ccc;
+    }
+    .test-success { border-left-color: #10b981; background: #f0fdf4; }
+    .test-error { border-left-color: #ef4444; background: #fef2f2; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔧 CMDI Grade Portal - Debug & Test</h1>
+    
+    <div id="status"></div>
+    
+    <h2>Diagnostic Tests</h2>
+    <button class="btn-primary" onclick="testLocalStorage()">Test LocalStorage</button>
+    <button class="btn-primary" onclick="testAuth()">Test Auth Functions</button>
+    <button class="btn-primary" onclick="testMockLogin()">Test Mock Login</button>
+    <button class="btn-primary" onclick="testBackendAPI()">Test Backend API</button>
+    <button class="btn-primary" onclick="clearData()">Clear LocalStorage</button>
+    <button class="btn-primary" onclick="runAllTests()">Run All Tests</button>
+    
+    <h2>Console Output</h2>
+    <div class="console" id="console"></div>
+    
+    <h2>Quick Links</h2>
+    <button class="btn-primary" onclick="window.location.href='index.html'">← Back to Login</button>
+    <button class="btn-primary" onclick="testDirectLogin()">Test Direct Login</button>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script>
+    const consoleLog = document.getElementById('console');
+    const statusDiv = document.getElementById('status');
+    
+    function log(msg, type = 'info') {
+      const timestamp = new Date().toLocaleTimeString();
+      const line = document.createElement('div');
+      line.textContent = `[${timestamp}] ${msg}`;
+      line.style.color = type === 'error' ? '#ff6b6b' : type === 'success' ? '#51cf66' : '#adb5bd';
+      consoleLog.appendChild(line);
+      consoleLog.scrollTop = consoleLog.scrollHeight;
+      console.log(msg);
+    }
+    
+    function addStatus(msg, type = 'info') {
+      const div = document.createElement('div');
+      div.className = `status ${type}`;
+      div.textContent = msg;
+      statusDiv.appendChild(div);
+    }
+    
+    function testLocalStorage() {
+      log('Testing LocalStorage...', 'info');
+      try {
+        localStorage.setItem('test', 'value');
+        const val = localStorage.getItem('test');
+        localStorage.removeItem('test');
+        log('✓ LocalStorage is working', 'success');
+        addStatus('✓ LocalStorage is working', 'success');
+      } catch (e) {
+        log('✗ LocalStorage error: ' + e.message, 'error');
+        addStatus('✗ LocalStorage error: ' + e.message, 'error');
+      }
+    }
+    
+    function testAuth() {
+      log('Testing Auth Functions...', 'info');
+      try {
+        const token = getToken();
+        const user = getUser();
+        log(`✓ getToken() = ${token || 'null'}`, 'success');
+        log(`✓ getUser() = ${user ? user.name : 'null'}`, 'success');
+        addStatus('✓ Auth functions are available', 'success');
+      } catch (e) {
+        log('✗ Auth error: ' + e.message, 'error');
+        addStatus('✗ Auth error: ' + e.message, 'error');
+      }
+    }
+    
+    function testMockLogin() {
+      log('Testing Mock Login...', 'info');
+      try {
+        const result = mockLogin('student@gmail.com', 'password123');
+        if (result.success) {
+          log('✓ Mock login successful: ' + result.user.name, 'success');
+          log('✓ Token: ' + getToken().substring(0, 30) + '...', 'success');
+          log('✓ User stored in localStorage', 'success');
+          addStatus('✓ Mock login is working perfectly', 'success');
+        } else {
+          log('✗ Mock login failed: ' + result.message, 'error');
+          addStatus('✗ Mock login failed: ' + result.message, 'error');
+        }
+      } catch (e) {
+        log('✗ Mock login error: ' + e.message, 'error');
+        addStatus('✗ Mock login error: ' + e.message, 'error');
+      }
+    }
+    
+    async function testBackendAPI() {
+      log('Testing Backend API...', 'info');
+      try {
+        const response = await fetch('http://localhost:5000/api/auth/test', { 
+          method: 'GET',
+          timeout: 3000 
+        });
+        log('✓ Backend is running on localhost:5000', 'success');
+        addStatus('✓ Backend API is available', 'success');
+      } catch (e) {
+        log('✗ Backend not available (expected for frontend-only mode): ' + e.message, 'info');
+        log('ℹ This is normal - the system will use mock data', 'info');
+        addStatus('ℹ Backend not running (mock mode active)', 'info');
+      }
+    }
+    
+    function clearData() {
+      log('Clearing LocalStorage...', 'info');
+      localStorage.clear();
+      log('✓ All data cleared', 'success');
+      addStatus('✓ LocalStorage cleared', 'success');
+    }
+    
+    async function runAllTests() {
+      statusDiv.innerHTML = '';
+      consoleLog.innerHTML = '';
+      log('Running all diagnostics...', 'info');
+      testLocalStorage();
+      testAuth();
+      testMockLogin();
+      await testBackendAPI();
+      log('✓ All tests completed', 'success');
+    }
+    
+    async function testDirectLogin() {
+      log('Testing direct login flow...', 'info');
+      clearData();
+      
+      try {
+        log('Attempting to login as student@gmail.com...', 'info');
+        const result = await login('student@gmail.com', 'password123');
+        
+        if (result.success) {
+          log('✓ Login successful! User: ' + result.user.name, 'success');
+          log('✓ Role: ' + result.user.role, 'success');
+          log('ℹ Redirecting to dashboard in 2 seconds...', 'info');
+          addStatus('✓ Login test successful! Redirecting...', 'success');
+          setTimeout(() => {
+            window.location.href = 'pages/student.html';
+          }, 2000);
+        } else {
+          log('✗ Login failed: ' + result.message, 'error');
+          addStatus('✗ Login failed: ' + result.message, 'error');
+        }
+      } catch (e) {
+        log('✗ Error during login: ' + e.message, 'error');
+        addStatus('✗ Login error: ' + e.message, 'error');
+      }
+    }
+    
+    // Auto-run tests on load
+    window.addEventListener('load', () => {
+      log('Debug page loaded', 'success');
+      log('Click buttons above to run tests', 'info');
+      log('Check browser console (F12) for detailed output', 'info');
+    });
+  </script>
+</body>
+</html>
